@@ -1,6 +1,11 @@
-﻿#!/usr/bin/env python
-"""Convenience entry-point for DailyLoginAutomator"""
-from automator.main import main
+import typer
+from automator.gui import GUI
+
+app = typer.Typer()
+
+@app.command()
+def gui():
+    GUI()
 
 if __name__ == "__main__":
-    main()
+    app()
