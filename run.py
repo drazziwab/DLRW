@@ -16,4 +16,3 @@ def gui(config: str = "configs/default_settings.json"):
 
 if __name__ == "__main__":
     app()
-
