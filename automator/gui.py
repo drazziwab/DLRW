@@ -44,8 +44,7 @@ def GUI(settings=None):
 
     log_output = tk.Text(tab_logs, wrap="word", height=15)
     log_output.pack(fill="both", expand=True, padx=10, pady=10)
-    log_output.insert("1.0", "Log viewer placeholder.
-")
+    log_output.insert("1.0", "Log viewer placeholder.\n")
     log_output.configure(state="disabled")
 
     root.mainloop()
