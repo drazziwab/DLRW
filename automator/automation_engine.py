@@ -1,28 +1,24 @@
-﻿# automator/automation_engine.py
-import subprocess, time, os, logging
-import pyautogui, pytesseract
-from PIL import Image
+﻿import pyautogui, pytesseract, subprocess, time
 
 class AutomationEngine:
-    def __init__(self): pass
+    """Launch game executable and perform reward actions."""
+    def __init__(self):
+        self.pyautogui = pyautogui; self.pytesseract = pytesseract
+        self.subprocess = subprocess; self.time = time
 
     def run(self, profile):
         exe = profile.get('game_path')
         try:
-            if exe:
-                logging.info(f'Starting game: {exe}')
-                subprocess.Popen([exe], shell=True)
-                time.sleep(10)
-                self._perform_actions(profile)
-                logging.info('Automation completed successfully.')
-            else:
-                logging.error('No game path in profile.')
+            proc = self.subprocess.Popen(exe)
         except Exception as e:
-            logging.error(f'Automation failed: {e}')
+            raise RuntimeError(f"Failed to launch game: {e}")
+        self.time.sleep(profile.get('launch_delay', 60))
+        self._perform_actions(profile)
+        proc.terminate()
 
     def _perform_actions(self, profile):
-        logging.info('Performing automation actions...')
-        screenshot = pyautogui.screenshot()
-        text = pytesseract.image_to_string(screenshot)
-        logging.info(f'OCR read: {text.strip()}')
-        # Add game-specific pyautogui steps here
+        w, h = self.pyautogui.size()
+        self.pyautogui.click(w//2, h//2)
+        self.time.sleep(2)
+        self.pyautogui.press('enter')
+        self.time.sleep(5)

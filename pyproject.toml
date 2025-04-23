@@ -1,0 +1,21 @@
+﻿[build-system]
+requires = ["setuptools>=42", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "dailyloginautomator"
+version = "0.1.0"
+description = "Automate daily login rewards across games."
+authors = [{ name="Your Name", email="you@example.com" }]
+readme = "README.md"
+license = { file="LICENSE" }
+requires-python = ">=3.7"
+dependencies = [
+  "pyautogui",
+  "pillow",
+  "schedule",
+  "pytesseract",
+  "typer",
+  "pyyaml",
+  "jsonschema"
+]

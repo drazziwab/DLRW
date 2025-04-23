@@ -1,22 +1,29 @@
-﻿# automator/scheduler.py
-import schedule, time, logging
-from automator.profile_manager import ProfileManager
-from automator.backup_manager import BackupManager
-from automator.automation_engine import AutomationEngine
-from automator.settings_manager import SettingsManager
+﻿import os, schedule, time
+from .main import run_profile
+
+def schedule_profile(profile_name, run_time: str):
+    h, m = map(int, run_time.split(':'))
+    schedule.clear()
+    schedule.every().day.at(f"{h:02d}:{m:02d}").do(run_profile, profile_name)
+    print(f"Scheduled '{profile_name}' daily at {h:02d}:{m:02d}")
+    try:
+        while True:
+            schedule.run_pending()
+            time.sleep(30)
+    except KeyboardInterrupt:
+        print('Scheduler stopped.')
 
 def run_profile(profile_name):
+    from .settings_manager import SettingsManager
+    from .backup_manager import BackupManager
+    from .profile_manager import ProfileManager
+    from .automation_engine import AutomationEngine
+
     settings = SettingsManager()
-    backup   = BackupManager(settings.get_backup_dir())
+    for d in (settings.get_logs_dir(), settings.get_backup_dir(), settings.get_profiles_dir()):
+        os.makedirs(d, exist_ok=True)
+    backup = BackupManager(settings.get_backup_dir())
     profiler = ProfileManager(settings.get_profiles_dir(), settings.get_config_path())
-    profile  = profiler.load_profile(profile_name)
-    backup.backup_settings(profile['settings_path'])
+    profile = profiler.load_profile(profile_name)
     engine = AutomationEngine()
     engine.run(profile)
-
-def schedule_profile(profile_name, run_time):
-    logging.info(f'Scheduling {profile_name} daily at {run_time}')
-    schedule.every().day.at(run_time).do(lambda: run_profile(profile_name))
-    while True:
-        schedule.run_pending()
-        time.sleep(30)

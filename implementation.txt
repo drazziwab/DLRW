@@ -1,0 +1,97 @@
+1. Project Structure & Documentation
+Add a README.md
+
+Overview of purpose ➔ “DailyLoginAutomator”
+
+Installation steps (Python version, pip install -r requirements.txt)
+
+Usage examples (python run.py --create-profile …, python run.py --run-profile …, scheduling)
+
+Include a LICENSE file to clarify usage rights.
+
+Create a docs/ folder (or GitHub Pages) with:
+
+Architecture diagram (modules and data flow)
+
+Configuration reference (fields in default_settings.json)
+
+Profile JSON schema
+
+Move CLI logic to a modern framework (e.g. Typer) for richer help, subcommands, and argument validation.
+
+2. Configuration & Settings
+Support multiple formats (allow YAML or .env overrides in addition to JSON).
+
+Validate default_settings.json on load (schema validation with jsonschema).
+
+Allow per-profile overrides (e.g. custom launch_delay, action sequence) stored alongside each profile.
+
+3. AutomationEngine Enhancements
+Bring game window to front using platform APIs (e.g. pywinauto on Windows) rather than naïve center-click.
+
+Parameterized action sequences:
+
+Read a list of steps from the profile (e.g. click at coords, OCR check, keystrokes) instead of hard-coded “press enter.”
+
+Dynamic delay tuning: expose a calibration mode to measure actual load time before running.
+
+Error recovery: if the reward isn’t detected (OCR mismatch), retry a configurable number of times and log failures.
+
+4. Scheduler & Execution
+Integrate with OS scheduler (Windows Task Scheduler / cron) so the script can be installed as a background job.
+
+Expose a “daemon” or “service” mode in the CLI that runs in the background and watches for schedule triggers.
+
+Add a --schedule flag to run.py so you can do:
+
+bash
+Copy
+Edit
+python run.py --schedule MyGame 09:00
+instead of editing Python files.
+
+5. Logging & Observability
+Use structured logging (e.g. JSON logs) and allow adjustable log levels via CLI (--verbose, --debug).
+
+Log rotation: integrate with [logging.handlers.RotatingFileHandler] to prevent unbounded log growth.
+
+Add telemetry hooks (opt-in) to track success/failure counts over time.
+
+6. Testing & Quality
+Introduce a tests/ directory with unit tests using pytest:
+
+Test SettingsManager loading/validation.
+
+Mock subprocess.Popen to verify AutomationEngine.run() launches the correct EXE.
+
+ProfileManager: ensure create_profile and load_profile round-trip.
+
+Continuous Integration
+
+GitHub Actions workflow to run linting (flake8/mypy), tests, and packaging checks on each PR.
+
+Code formatting
+
+Enforce PEP8 with black and static typing with mypy.
+
+7. Packaging & Distribution
+Add pyproject.toml (or setup.py) to make the project installable via pip install ..
+
+Publish to PyPI (optionally) so users can pip install DailyLoginAutomator.
+
+Versioning
+
+Bump a __version__ in automator/__init__.py and tag releases in Git.
+
+8. Profiles & Backup Management
+JSON schema for profiles and settings so users get validation errors up front.
+
+Profile editor CLI or minimal TUI to walk users through path, delay, and action configuration.
+
+BackupManager
+
+Rotate backups (keep last N only).
+
+Compress older backups.
+
+Implementing these will make the project more robust, user-friendly, and maintainable.
