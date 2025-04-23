@@ -1,0 +1,4 @@
+[1] Game: "name"		"Icarus" | "appid"		"1149460" | "LauncherPath"		"C:\\Program Files (x86)\\Steam\\steam.exe" | F:\SteamLibrary\steamapps\appmanifest_1149460.acf
+[2] Game: "name"		"Global Agenda" | "appid"		"17020" | "LauncherPath"		"D:\\Program Files (x86)\\Steam\\steam.exe" | F:\SteamLibrary\steamapps\appmanifest_17020.acf
+[3] Game: "name"		"The First Descendant" | "appid"		"2074920" | "LauncherPath"		"C:\\Program Files (x86)\\Steam\\steam.exe" | F:\SteamLibrary\steamapps\appmanifest_2074920.acf
+[4] Game: "name"		"MORDHAU" | "appid"		"629760" | "LauncherPath"		"D:\\Program Files (x86)\\Steam\\steam.exe" | F:\SteamLibrary\steamapps\appmanifest_629760.acf
