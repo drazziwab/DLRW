@@ -1,4 +1,14 @@
-﻿import pyautogui, pytesseract, subprocess, time
+import logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(message)s",
+    handlers=[
+        logging.FileHandler("logs/automator.log"),
+        logging.StreamHandler()
+    ]
+)
+logger = logging.getLogger(__name__)
+import pyautogui, pytesseract, subprocess, time
 
 class AutomationEngine:
     """Launches game executable and performs automated login reward actions."""
@@ -26,3 +36,4 @@ class AutomationEngine:
         self.time.sleep(2)
         self.pyautogui.press("enter")
         self.time.sleep(5)
+
