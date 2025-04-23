@@ -3,6 +3,10 @@ from automator.gui import GUI
 
 app = typer.Typer()
 
+@app.callback()
+def main():
+    """Main entrypoint for DLRW app CLI."""
+
 @app.command()
 def gui(config: str = "configs/default_settings.json"):
     import json
@@ -16,3 +20,4 @@ def gui(config: str = "configs/default_settings.json"):
 
 if __name__ == "__main__":
     app()
+
